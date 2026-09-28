@@ -41,14 +41,15 @@ label input{width:auto}
 <h1>Costa Rica 2027</h1>
 <p>Unsere Familienreise. Bitte Passwort eingeben.</p>
 <form id="f" autocomplete="on">
-  <input id="pw" type="password" name="password" autocomplete="current-password" placeholder="Passwort" aria-label="Passwort" required>
+  <input id="pw" type="password" autocapitalize="off" autocorrect="off" spellcheck="false" name="password" autocomplete="current-password" placeholder="Passwort" aria-label="Passwort" required>
+  <label><input id="show" type="checkbox"> Passwort anzeigen</label>
   <label><input id="keep" type="checkbox" checked> Auf diesem Gerät merken</label>
   <button id="go" type="submit">Öffnen</button>
   <div class="err" id="err" role="status" aria-live="polite"></div>
 </form>
 <script>
 (() => {
-const SALT = "4bXNjGGIJZ09v9fD1V+9Nw==", IV = "OO88P5qZEvVEL+tR", ITER = 310000, KEYSTORE = "cr-app-key";
+const SALT = "4bXNjGGIJZ09v9fD1V+9Nw==", IV = "RgTxy4nLMEfI6nMx", ITER = 310000, KEYSTORE = "cr-app-key";
 const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
 const tob64 = b => btoa(String.fromCharCode(...new Uint8Array(b)));
 async function payload(){ const r = await fetch("app.enc", {cache:"no-cache"}); if (!r.ok) throw new Error("app"); return r.arrayBuffer(); }
@@ -68,6 +69,7 @@ async function fromPassword(pw){
     catch(e){ try { localStorage.removeItem(KEYSTORE); } catch(_){} }
   }
 })();
+document.getElementById("show").addEventListener("change", e => { document.getElementById("pw").type = e.target.checked ? "text" : "password"; });
 document.getElementById("f").addEventListener("submit", async e => {
   e.preventDefault(); const go = document.getElementById("go"), err = document.getElementById("err");
   go.disabled = true; go.textContent = "Wird geöffnet …"; err.textContent = "";
