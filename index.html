@@ -48,7 +48,7 @@ label input{width:auto}
 </form>
 <script>
 (() => {
-const SALT = "q8WVuwQetG20x3CCR3EU+A==", IV = "Rz3MSG8SsAx2m7nG", ITER = 310000, KEYSTORE = "cr-app-key";
+const SALT = "pnr9R4/HY73m5uVABJEVGg==", IV = "tp2by7wN4wTDe0ZM", ITER = 310000, KEYSTORE = "cr-app-key";
 const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
 const tob64 = b => btoa(String.fromCharCode(...new Uint8Array(b)));
 async function payload(){ const r = await fetch("app.enc", {cache:"no-cache"}); if (!r.ok) throw new Error("app"); return r.arrayBuffer(); }
