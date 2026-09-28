@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F3F5F1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Costa Rica">
+<link rel="icon" href="icons/favicon.png">
+<title>Costa Rica 2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Saira+Extra+Condensed:wght@900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F3F5F1;--ink:#171717;--ink-2:#5E5E5E;--line:#D9DFD6;--forest:#0E5A47;--err:#C0392B}
+@media (prefers-color-scheme:dark){:root{--bg:#0F1613;--ink:#EDEDED;--ink-2:#A6A6A6;--line:#2B3A33;--forest:#4FC39F}}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.45 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased;
+  display:flex;flex-direction:column;justify-content:center;padding:env(safe-area-inset-top,0px) 24px env(safe-area-inset-bottom,0px)}
+.flag{width:72px;height:72px;border-radius:18px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,.15);display:grid;grid-template-rows:1fr 1fr 2fr 1fr 1fr}
+.flag i:nth-child(1),.flag i:nth-child(5){background:#002B7F}.flag i:nth-child(2),.flag i:nth-child(4){background:#fff}.flag i:nth-child(3){background:#CE1126}
+h1{font:900 52px/.95 "Saira Extra Condensed","Arial Narrow",sans-serif;text-transform:uppercase;letter-spacing:.015em;margin:28px 0 6px}
+p{margin:0 0 28px;color:var(--ink-2)}
+form{display:grid;gap:12px;max-width:420px}
+input{font:inherit;font-size:17px;padding:14px 16px;border-radius:14px;border:1.5px solid var(--line);background:transparent;color:var(--ink);width:100%}
+input:focus{outline:3px solid var(--forest);outline-offset:1px}
+button{font:inherit;font-weight:700;font-size:17px;padding:14px 16px;border-radius:14px;border:0;background:var(--forest);color:#fff;cursor:pointer}
+button:disabled{opacity:.6}
+.err{color:var(--err);font-size:14px;min-height:20px}
+label{font-size:14px;color:var(--ink-2);display:flex;gap:8px;align-items:center}
+label input{width:auto}
+</style>
+</head>
+<body>
+<div class="flag" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+<h1>Costa Rica 2027</h1>
+<p>Unsere Familienreise. Bitte Passwort eingeben.</p>
+<form id="f" autocomplete="on">
+  <input id="pw" type="password" name="password" autocomplete="current-password" placeholder="Passwort" aria-label="Passwort" required>
+  <label><input id="keep" type="checkbox" checked> Auf diesem Gerät merken</label>
+  <button id="go" type="submit">Öffnen</button>
+  <div class="err" id="err" role="status" aria-live="polite"></div>
+</form>
+<script>
+(() => {
+const SALT = "/xtgPNJCpdzOhfQ5CkpXyQ==", IV = "nlqX5Fg6uuYKcOps", ITER = 310000, KEYSTORE = "cr-app-key";
+const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+const tob64 = b => btoa(String.fromCharCode(...new Uint8Array(b)));
+async function payload(){ const r = await fetch("app.enc", {cache:"no-cache"}); if (!r.ok) throw new Error("app"); return r.arrayBuffer(); }
+async function open(key){
+  const html = new TextDecoder().decode(await crypto.subtle.decrypt({name:"AES-GCM", iv:b64(IV)}, key, await payload()));
+  document.open(); document.write(html); document.close();
+}
+async function fromPassword(pw){
+  const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(pw), "PBKDF2", false, ["deriveKey"]);
+  return crypto.subtle.deriveKey({name:"PBKDF2", salt:b64(SALT), iterations:ITER, hash:"SHA-256"}, base, {name:"AES-GCM", length:256}, true, ["decrypt"]);
+}
+(async () => {
+  let saved = null; try { saved = localStorage.getItem(KEYSTORE); } catch(e){}
+  if (saved){
+    try { const [s, k] = saved.split("."); if (s !== SALT) throw 0;
+      await open(await crypto.subtle.importKey("raw", b64(k), "AES-GCM", false, ["decrypt"])); return; }
+    catch(e){ try { localStorage.removeItem(KEYSTORE); } catch(_){} }
+  }
+})();
+document.getElementById("f").addEventListener("submit", async e => {
+  e.preventDefault(); const go = document.getElementById("go"), err = document.getElementById("err");
+  go.disabled = true; go.textContent = "Wird geöffnet …"; err.textContent = "";
+  try {
+    const key = await fromPassword(document.getElementById("pw").value);
+    const keep = document.getElementById("keep").checked;
+    const raw = await crypto.subtle.exportKey("raw", key);
+    const html = new TextDecoder().decode(await crypto.subtle.decrypt({name:"AES-GCM", iv:b64(IV)}, key, await payload()));
+    if (keep) { try { localStorage.setItem(KEYSTORE, SALT + "." + tob64(raw)); } catch(_){} }
+    document.open(); document.write(html); document.close();
+  } catch(ex){
+    go.disabled = false; go.textContent = "Öffnen";
+    err.textContent = ex && ex.message === "app" ? "Die App konnte nicht geladen werden. Prüfe die Verbindung." : "Das Passwort stimmt nicht.";
+  }
+});
+})();
+</script>
+</body>
+</html>
