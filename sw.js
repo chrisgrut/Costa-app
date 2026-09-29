@@ -1,5 +1,5 @@
 /* Offline-Speicher: App-Datei zuerst aus dem Netz, alles andere aus dem Cache */
-const C = "cr-OPsWtE5z";
+const C = "cr-3x5zf3E6";
 self.addEventListener("install", e => { self.skipWaiting(); e.waitUntil(caches.open(C).then(c => c.addAll(["./", "index.html", "app.enc", "manifest.webmanifest", "icons/apple-touch-icon.png"]))); });
 self.addEventListener("activate", e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== C).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
 self.addEventListener("fetch", e => {
