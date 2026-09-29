@@ -49,7 +49,7 @@ label input{width:auto}
 </form>
 <script>
 (() => {
-const SALT = "4bXNjGGIJZ09v9fD1V+9Nw==", IV = "cDj6gL2zTykbkb6i", ITER = 310000, KEYSTORE = "cr-app-key";
+const SALT = "4bXNjGGIJZ09v9fD1V+9Nw==", IV = "vk/P1xQVelJkHxEC", ITER = 310000, KEYSTORE = "cr-app-key";
 const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
 const tob64 = b => btoa(String.fromCharCode(...new Uint8Array(b)));
 async function payload(){ const r = await fetch("app.enc", {cache:"no-cache"}); if (!r.ok) throw new Error("app"); return r.arrayBuffer(); }
