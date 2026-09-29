@@ -16,8 +16,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Saira+Extra+Condensed:wght@900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#F3F5F1;--ink:#171717;--ink-2:#5E5E5E;--line:#D9DFD6;--forest:#0E5A47;--err:#C0392B}
-@media (prefers-color-scheme:dark){:root{--bg:#0F1613;--ink:#EDEDED;--ink-2:#A6A6A6;--line:#2B3A33;--forest:#4FC39F}}
+:root{--field:#fff;--bg:#F3F5F1;--ink:#171717;--ink-2:#5E5E5E;--line:#D9DFD6;--forest:#0E5A47;--err:#C0392B}
+@media (prefers-color-scheme:dark){:root{--field:#18211D;--bg:#0F1613;--ink:#EDEDED;--ink-2:#A6A6A6;--line:#2B3A33;--forest:#4FC39F}}
 *{box-sizing:border-box}
 html,body{height:100%;margin:0}
 body{background:var(--bg);color:var(--ink);font:16px/1.45 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased;
@@ -30,7 +30,7 @@ body::before{content:"";position:fixed;left:0;right:0;top:-150vh;height:420vh;z-
 h1{font:900 52px/.95 "Saira Extra Condensed","Arial Narrow",sans-serif;text-transform:uppercase;letter-spacing:.015em;margin:28px 0 6px}
 p{margin:0 0 28px;color:var(--ink-2)}
 form{display:grid;gap:12px;max-width:420px}
-input{font:inherit;font-size:17px;padding:14px 16px;border-radius:14px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);width:100%}
+input{font:inherit;font-size:17px;padding:14px 16px;border-radius:14px;border:1.5px solid var(--line);background:var(--field);color:var(--ink);width:100%}
 input:focus{outline:3px solid var(--forest);outline-offset:1px}
 button{font:inherit;font-weight:700;font-size:17px;padding:14px 16px;border-radius:14px;border:0;background:var(--forest);color:#fff;cursor:pointer}
 button:disabled{opacity:.6}
@@ -52,7 +52,7 @@ label input{width:auto}
 </form>
 <script>
 (() => {
-const SALT = "4bXNjGGIJZ09v9fD1V+9Nw==", IV = "SDYjX9L03w49ZjyS", ITER = 310000, KEYSTORE = "cr-app-key";
+const SALT = "4bXNjGGIJZ09v9fD1V+9Nw==", IV = "cAqy71iZvU9DuO1D", ITER = 310000, KEYSTORE = "cr-app-key";
 const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
 const tob64 = b => btoa(String.fromCharCode(...new Uint8Array(b)));
 async function payload(){ const r = await fetch("app.enc", {cache:"no-cache"}); if (!r.ok) throw new Error("app"); return r.arrayBuffer(); }
