@@ -22,9 +22,9 @@
 html,body{height:100%;margin:0}
 body{background:var(--bg);color:var(--ink);font:16px/1.45 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased;
   display:flex;flex-direction:column;justify-content:center;padding:env(safe-area-inset-top,0px) 24px env(safe-area-inset-bottom,0px)}
-body::before{content:"";position:fixed;left:0;right:0;top:-150vh;height:420vh;z-index:-1;pointer-events:none;background:url(img/contours.svg) 56% 0/auto 100% no-repeat;opacity:.13}
+body::before{content:"";position:fixed;left:0;right:0;top:-150vh;height:420vh;z-index:-1;pointer-events:none;background:url(img/contours.svg) 56% 0/auto 100% no-repeat;opacity:.1}
 @media (min-aspect-ratio:1/1){body::before{background-size:260% auto}}
-@media (prefers-color-scheme:dark){body::before{filter:invert(1) hue-rotate(180deg);opacity:.1}}
+@media (prefers-color-scheme:dark){body::before{filter:invert(1) hue-rotate(180deg);opacity:.08}}
 .flag{width:72px;height:72px;border-radius:18px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,.15);display:grid;grid-template-rows:1fr 1fr 2fr 1fr 1fr}
 .flag i:nth-child(1),.flag i:nth-child(5){background:#002B7F}.flag i:nth-child(2),.flag i:nth-child(4){background:#fff}.flag i:nth-child(3){background:#CE1126}
 h1{font:900 52px/.95 "Saira Extra Condensed","Arial Narrow",sans-serif;text-transform:uppercase;letter-spacing:.015em;margin:28px 0 6px}
@@ -52,7 +52,7 @@ label input{width:auto}
 </form>
 <script>
 (() => {
-const SALT = "4bXNjGGIJZ09v9fD1V+9Nw==", IV = "cAqy71iZvU9DuO1D", ITER = 310000, KEYSTORE = "cr-app-key";
+const SALT = "4bXNjGGIJZ09v9fD1V+9Nw==", IV = "UNImQg9idq8l2zBT", ITER = 310000, KEYSTORE = "cr-app-key";
 const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
 const tob64 = b => btoa(String.fromCharCode(...new Uint8Array(b)));
 async function payload(){ const r = await fetch("app.enc", {cache:"no-cache"}); if (!r.ok) throw new Error("app"); return r.arrayBuffer(); }
