@@ -2,7 +2,7 @@
    cr-<build>: App-Hülle, wird bei jedem Update ersetzt
    cr-files:   Fotos, Karten, Bilder (bleibt über Updates, geänderte Dateien werden anhand offline.json entfernt)
    cr-ext:     Kartenbibliothek, Schriften, Satellitenbilder, Google-Fotos (bleibt über Updates) */
-const C = "cr-2ZuLvgkE", FILES = "cr-files", EXT = "cr-ext";
+const C = "cr-mrc5DAqb", FILES = "cr-files", EXT = "cr-ext";
 self.addEventListener("install", e => { self.skipWaiting(); e.waitUntil(caches.open(C).then(c => c.addAll(["./", "index.html", "app.enc", "manifest.webmanifest", "icons/apple-touch-icon.png"]))); });
 self.addEventListener("activate", e => { e.waitUntil((async () => {
   for (const k of await caches.keys()) if (k !== C && k !== FILES && k !== EXT) await caches.delete(k);
